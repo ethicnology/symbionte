@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -30,18 +31,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUI(user: FirebaseUser?){
-        if(user != null){
-            findViewById<EditText>(R.id.editTextEmailAddress).visibility = View.VISIBLE
-            findViewById<EditText>(R.id.editTextPassword).visibility = View.VISIBLE
-        } else {
-            findViewById<EditText>(R.id.editTextEmailAddress).visibility = View.VISIBLE
-            findViewById<EditText>(R.id.editTextPassword).visibility = View.VISIBLE
+        user?.let{
+            findViewById<TextView>(R.id.textViewUserId).text = user.uid
+        } ?: run {
+            findViewById<TextView>(R.id.textViewUserId).text = "null"
         }
     }
 
-    public fun buttonSignUp(view: View){
-        val email = findViewById<EditText>(R.id.editTextEmailAddress).toString()
-        val password = findViewById<EditText>(R.id.editTextPassword).toString()
+    fun buttonSignUp(view: View){
+        val email = findViewById<EditText>(R.id.editTextEmailAddress).text.toString()
+        val password = findViewById<EditText>(R.id.editTextPassword).text.toString()
 
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
@@ -60,11 +59,9 @@ class MainActivity : AppCompatActivity() {
             }
     }
 
-    public fun buttonLogIn(view: View){
+    fun buttonLogIn(view: View){
         val email = findViewById<EditText>(R.id.editTextEmailAddress).text.toString()
         val password = findViewById<EditText>(R.id.editTextPassword).text.toString()
-
-        Toast.makeText(this, email,Toast.LENGTH_SHORT).show()
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
