@@ -32,10 +32,11 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress" />
 
     <Button
-        android:id="@+id/buttonSignIn"
+        android:id="@+id/buttonLogIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SignIn"
+        android:onClick="buttonLogIn"
+        android:text="Log in"
         app:layout_constraintEnd_toEndOf="@+id/editTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
@@ -43,7 +44,8 @@
         android:id="@+id/buttonSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SignUp"
+        android:onClick="buttonSignUp"
+        android:text="Sign Up"
         app:layout_constraintStart_toStartOf="@+id/editTextPassword"
         app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>

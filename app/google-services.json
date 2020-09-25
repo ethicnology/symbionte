@@ -8,36 +8,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:935565419857:android:2daf6658fbb602150adf70",
-        "android_client_info": {
-          "package_name": "com.ethicnology.myapplication"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "935565419857-ac5cr1u62jpfala9oik8rot3q0sp9nu3.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCHYjzWP8a9CJCeIeYZIl7_4TooxCVfGn0"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "935565419857-ac5cr1u62jpfala9oik8rot3q0sp9nu3.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:935565419857:android:bf369b26411324ab0adf70",
+        "mobilesdk_app_id": "1:935565419857:android:18f026667fbd65600adf70",
         "android_client_info": {
           "package_name": "com.ethicnology.symbionte"
         }
