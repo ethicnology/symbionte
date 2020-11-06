@@ -17,6 +17,7 @@ class Authentication : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     val db = Firebase.firestore
+    val TAG = "Authentication"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +49,7 @@ class Authentication : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d("Auth", "createUserWithEmail:success")
+                    Log.d(TAG, "createUserWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
                     // Create a user document for his/her personal data
@@ -57,31 +58,31 @@ class Authentication : AppCompatActivity() {
                             "first" to "FirstName",
                             "last" to "LastName",
                         ))
+                        Log.d("Firestore", "createUserDocument:success")
                     }
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w("Auth", "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(baseContext, "failed.",
-                        Toast.LENGTH_SHORT).show()
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     updateUI(null)
                 }
             }
     }
 
     fun buttonLogIn(view: View){
+        // Get inputs values
         val email = findViewById<EditText>(R.id.editTextEmailAddress).text.toString()
         val password = findViewById<EditText>(R.id.editTextPassword).text.toString()
-
+        // Try to sign in using Firebase Authentication
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d("Auth", "logInWithEmail:success")
+                    Log.d(TAG, "logInWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w("Auth", "logInWithEmail:failure", task.exception)
+                    Log.w(TAG, "logInWithEmail:failure", task.exception)
                     updateUI(null)
                 }
             }
