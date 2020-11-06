@@ -2,9 +2,12 @@ package com.ethicnology.symbionte
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.View
-import android.widget.Toast
+import android.widget.EditText
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -12,51 +15,46 @@ class PersonalDataManager : AppCompatActivity() {
     // Access a Cloud Firestore instance from your Activity
     val db = Firebase.firestore
     private val TAG = "Firestore"
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.personal_data_manager)
+        auth = Firebase.auth
+        // Get authentified user
+        val authUser = auth.currentUser
+        // Get user document by user auth uid
+        val user = authUser?.uid?.let { db.collection("users").document(it) }
+        user?.get()?.addOnSuccessListener { document ->
+            if (document != null) {
+                Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                // Replace placeholders by users values
+                findViewById<EditText>(R.id.editTextFirstName).text = Editable.Factory.getInstance().newEditable(document.data?.get("first").toString())
+                findViewById<EditText>(R.id.editTextLastName).text = Editable.Factory.getInstance().newEditable(document.data?.get("last").toString())
+            } else {
+                Log.d(TAG, "No such document")
+            }
+        }?.addOnFailureListener { exception ->
+            Log.d(TAG, "get failed with ", exception)
+        }
+
     }
 
-    fun buttonAdd(view: View){
-        addAlanTuring()
+    private fun updateUser(){
+        // Get inputs values
+        val firstName = findViewById<EditText>(R.id.editTextFirstName).text.toString()
+        val lastName = findViewById<EditText>(R.id.editTextLastName).text.toString()
+        val authUser = auth.currentUser
+        // Update user document
+        val user = authUser?.uid?.let { db.collection("users").document(it) }
+        user?.update(mapOf(
+            "first" to firstName,
+            "last" to lastName,
+        ))?.addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            ?.addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
     }
 
-    private fun addAlanTuring() {
-        // [START add_ada_lovelace]
-        // Create a new user with a first and last name
-        val user = hashMapOf(
-            "first" to "Alan",
-            "last" to "Turing",
-            "born" to 1912
-        )
-        // Add a new document with a generated ID
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
-        Toast.makeText(this, "User added to firestore", Toast.LENGTH_SHORT).show()
-        // [END add_ada_lovelace]
+    fun buttonUpdate(view: View){
+        updateUser()
     }
-
-    private fun getAllUsers() {
-        // [START get_all_users]
-        db.collection("users")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents.", exception)
-            }
-        // [END get_all_users]
-    }
-
-
 }
