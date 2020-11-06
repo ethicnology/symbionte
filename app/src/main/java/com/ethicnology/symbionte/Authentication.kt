@@ -10,11 +10,13 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class Authentication : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    val db = Firebase.firestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,13 @@ class Authentication : AppCompatActivity() {
                     Log.d("Auth", "createUserWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
+                    // Create a user document for his/her personal data
+                    if (user != null) {
+                        db.collection("users").document(user.uid).set(mapOf(
+                            "first" to "FirstName",
+                            "last" to "LastName",
+                        ))
+                    }
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("Auth", "createUserWithEmail:failure", task.exception)
