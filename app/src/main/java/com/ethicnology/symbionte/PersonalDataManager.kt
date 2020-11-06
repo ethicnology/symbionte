@@ -31,9 +31,7 @@ class PersonalDataManager : AppCompatActivity() {
                 // Replace placeholders by users values
                 findViewById<EditText>(R.id.editTextFirstName).text = Editable.Factory.getInstance().newEditable(document.data?.get("first").toString())
                 findViewById<EditText>(R.id.editTextLastName).text = Editable.Factory.getInstance().newEditable(document.data?.get("last").toString())
-            } else {
-                Log.d(TAG, "No such document")
-            }
+            } else { Log.d(TAG, "No such document") }
         }?.addOnFailureListener { exception ->
             Log.d(TAG, "get failed with ", exception)
         }
