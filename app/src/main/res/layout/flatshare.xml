@@ -6,4 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".Flatshare">
 
+    <EditText
+        android:id="@+id/editTextFlatshareName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFlatshareId" />
+
+    <TextView
+        android:id="@+id/textViewFlatshareId"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="160dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Create"
+        android:onClick="buttonCreateFlatshare"
+        app:layout_constraintEnd_toEndOf="@+id/editTextFlatshareName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFlatshareName" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Join"
+        android:onClick="buttonJoinFlatshare"
+        app:layout_constraintStart_toStartOf="@+id/editTextFlatshareName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFlatshareName" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
