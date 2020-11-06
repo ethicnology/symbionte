@@ -9,13 +9,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PersonalDataManager" android:parentActivityName=".Incipit">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".Incipit" />
+        <activity android:name=".Flatshare"
+            android:parentActivityName=".Incipit">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Incipit" />
+        </activity>
+        <activity
+            android:name=".PersonalDataManager"
+            android:parentActivityName=".Incipit">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Incipit" />
         </activity>
         <activity
             android:name=".Authentication"
             android:parentActivityName=".Incipit">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".Incipit" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Incipit" />
         </activity>
         <activity android:name=".Incipit">
             <intent-filter>
@@ -24,4 +36,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
