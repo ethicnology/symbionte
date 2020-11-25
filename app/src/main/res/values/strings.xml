@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Symbionte</string>
+
+    <string name="category_prompt">Choose a category</string>
+
+    <string-array name="category">
+        <item>Home</item>
+        <item>Shopping</item>
+    </string-array>
+
 </resources>

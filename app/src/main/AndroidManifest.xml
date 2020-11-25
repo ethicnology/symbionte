@@ -29,6 +29,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Incipit" />
         </activity>
+        <activity
+            android:name=".Todo_List"
+            android:parentActivityName=".Incipit">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Incipit" />
+        </activity>
         <activity android:name=".Incipit">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
