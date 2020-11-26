@@ -60,7 +60,11 @@ public class Todo_List extends AppCompatActivity {
         ref = db.collection("colocations");
 
         current_user_auth = FirebaseAuth.getInstance().getCurrentUser();
-        setIdFlatshare(current_user_auth);
+        System.out.println(current_user_auth.getUid());
+        User current_user = new User(current_user_auth.getUid());
+        current_user.fetchData();
+        System.out.println("Current flatshare: "+current_user.getFlatshareId());
+
         listItem = (RecyclerView)findViewById(R.id.listTodo);
         listItem.setHasFixedSize(true);
 
@@ -162,24 +166,5 @@ public class Todo_List extends AppCompatActivity {
                         loadData(selected_item_filter);
                     }
                 });
-    }
-
-    private void setIdFlatshare(FirebaseUser current_user_auth){
-        db.collection("users").document(current_user_auth.getUid()).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        flatshareId = (String) document.getData().get("flatshareId");
-                    } else {
-                        Log.d("TAG", "No such document");
-                    }
-                } else {
-                    Log.d("TAG", "get failed with ", task.getException());
-                }
-            }
-        });
     }
 }
