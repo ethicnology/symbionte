@@ -5,18 +5,16 @@ public class Todo {
     private String title;
     private String description;
     private String id;
-    private String category;
 
 
     public Todo() {
 
     }
 
-    public Todo(String id, String title, String description, String category) {
+    public Todo(String id, String title, String description) {
         this.title = title;
         this.description = description;
         this.id = id;
-        this.category = category;
     }
     public String getTitle() {
         return title;
@@ -41,11 +39,5 @@ public class Todo {
     public void setId(String id) {
         this.id = id;
     }
-    public String getCategory() {
-        return category;
-    }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
 }

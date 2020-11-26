@@ -18,7 +18,6 @@ class ListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClick
 
 
 
-    ItemClickListener itemClickListener;
     TextView item_title,item_description;
 
     public ListItemViewHolder(View itemView) {
@@ -30,13 +29,10 @@ class ListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClick
         item_description = (TextView)itemView.findViewById(R.id.item_description);
     }
 
-    public void setItemClickListener(ItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
-    }
 
     @Override
     public void onClick(View v) {
-        itemClickListener.onClick(v,getAdapterPosition(),false);
+        //itemClickListener.onClick(v,getAdapterPosition(),false);
     }
 
     @Override
@@ -72,7 +68,6 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemViewHolder>{
     public void onBindViewHolder(ListItemViewHolder holder, int position) {
         holder.item_title.setText(todoList.get(position).getTitle());
         holder.item_description.setText(todoList.get(position).getDescription());
-
     }
 
     @Override
