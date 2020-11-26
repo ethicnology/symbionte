@@ -41,7 +41,7 @@ class Authentication : AppCompatActivity() {
         }
     }
 
-    fun buttonSignUp(view: View){
+    fun buttonSignUp(){
         val email = findViewById<EditText>(R.id.editTextEmailAddress).text.toString()
         val password = findViewById<EditText>(R.id.editTextPassword).text.toString()
 
@@ -68,7 +68,7 @@ class Authentication : AppCompatActivity() {
             }
     }
 
-    fun buttonLogIn(view: View){
+    fun buttonLogIn(){
         // Get inputs values
         val email = findViewById<EditText>(R.id.editTextEmailAddress).text.toString()
         val password = findViewById<EditText>(R.id.editTextPassword).text.toString()
