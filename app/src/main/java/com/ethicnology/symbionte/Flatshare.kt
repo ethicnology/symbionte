@@ -14,7 +14,7 @@ class Flatshare(ID: String) {
     val db = Firebase.firestore
 
     fun fetchData(){
-        val docRef = db.collection("users").document(this.ID)
+        val docRef = db.collection("colocations").document(this.ID)
         docRef.get()
             .addOnSuccessListener { document ->
                 if (document != null) {
