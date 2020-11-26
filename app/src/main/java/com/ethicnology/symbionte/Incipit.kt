@@ -42,7 +42,7 @@ class Incipit : AppCompatActivity(), CellClickListener {
         val activity = when(data){
             "Authentication" -> Authentication::class.java
             "PersonalDataManager" -> PersonalDataManager::class.java
-            "Flatshare" -> Flatshare::class.java
+            "FlatshareManager" -> FlatshareManager::class.java
             "FlatmatesLocation" -> FlatmatesLocation::class.java
             else -> Incipit::class.java
         }
