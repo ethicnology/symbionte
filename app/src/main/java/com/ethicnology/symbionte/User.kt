@@ -13,7 +13,7 @@ class User(UID: String) {
 
     val db = Firebase.firestore
 
-    fun getData(){
+    fun fetchData(){
         val docRef = db.collection("users").document(this.UID)
         docRef.get()
             .addOnSuccessListener { document ->
