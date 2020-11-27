@@ -51,6 +51,7 @@ dependencies {
     implementation "androidx.core:core-ktx:+"
     implementation 'com.firebaseui:firebase-ui-firestore:7.1.0'
 
-repositories {
-    mavenCentral()
+    repositories {
+        mavenCentral()
+    }
 }
