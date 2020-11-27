@@ -60,6 +60,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Incipit" />
         </activity>
+        <activity
+            android:name=".Calendar"
+            android:parentActivityName=".Incipit">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Incipit" />
+        </activity>
+        <activity
+            android:name=".Add_event"
+            android:parentActivityName=".Calendar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Calendar" />
+        </activity>
         <activity android:name=".Incipit">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
