@@ -26,7 +26,8 @@ class Incipit : AppCompatActivity(), CellClickListener {
         setContentView(R.layout.incipit)
         viewManager = LinearLayoutManager(this)
 
-        viewAdapter = MyAdapter(arrayOf("Incipit", "Authentication", "PersonalDataManager", "FlatmatesLocation","Todo_List", "FlatshareManager", "Else"), this)
+        viewAdapter = MyAdapter(arrayOf("Incipit", "Authentication", "PersonalDataManager", "FlatmatesLocation", "FlatshareManager", "Todo_List", "Else"), this)
+
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView

@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -41,7 +40,7 @@ class Authentication : AppCompatActivity() {
         }
     }
 
-    fun buttonSignUp(){
+    fun buttonSignUp(view: View){
         val email = findViewById<EditText>(R.id.editTextEmailAddress).text.toString()
         val password = findViewById<EditText>(R.id.editTextPassword).text.toString()
 
@@ -68,7 +67,7 @@ class Authentication : AppCompatActivity() {
             }
     }
 
-    fun buttonLogIn(){
+    fun buttonLogIn(view: View){
         // Get inputs values
         val email = findViewById<EditText>(R.id.editTextEmailAddress).text.toString()
         val password = findViewById<EditText>(R.id.editTextPassword).text.toString()
