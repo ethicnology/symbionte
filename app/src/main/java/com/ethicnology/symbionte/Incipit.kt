@@ -25,7 +25,9 @@ class Incipit : AppCompatActivity(), CellClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.incipit)
         viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(arrayOf("Incipit", "Authentication", "PersonalDataManager", "FlatmatesLocation","FlatshareManager" ,"Calendar", "Else"), this)
+
+        viewAdapter = MyAdapter(arrayOf("Incipit", "Authentication", "PersonalDataManager", "FlatmatesLocation", "FlatshareManager", "Todo_List", "Calendar", "Else"), this)
+
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
@@ -37,11 +39,13 @@ class Incipit : AppCompatActivity(), CellClickListener {
         }
     }
 
+
     override fun onCellClickListener(data: String) {
         Toast.makeText(this,data, Toast.LENGTH_SHORT).show()
         val activity = when(data){
             "Authentication" -> Authentication::class.java
             "PersonalDataManager" -> PersonalDataManager::class.java
+            "Todo_List" -> Todo_List::class.java
             "FlatshareManager" -> FlatshareManager::class.java
             "FlatmatesLocation" -> FlatmatesLocation::class.java
             "Calendar" -> Calendar::class.java

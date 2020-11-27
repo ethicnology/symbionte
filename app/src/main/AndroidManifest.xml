@@ -61,6 +61,20 @@
                 android:value=".Incipit" />
         </activity>
         <activity
+            android:name=".Todo_List"
+            android:parentActivityName=".Incipit">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Incipit" />
+        </activity>
+        <activity
+            android:name=".Send_Todo"
+            android:parentActivityName=".Todo_List">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Todo_List" />
+        </activity>
+        <activity
             android:name=".Calendar"
             android:parentActivityName=".Incipit">
             <meta-data
