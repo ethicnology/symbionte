@@ -14,4 +14,3 @@ data class Flatshare(
     val members: Array<String>? = null,
     val name: String? = null
 )
-
