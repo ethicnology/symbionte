@@ -81,46 +81,48 @@ public class Todo_List extends AppCompatActivity {
         dropdown = findViewById(R.id.categories);
         setFlatshareId(current_user_auth.getUid(), new CallBackMethods() {
             @Override
-            public void callback(String flatshareId) {
+            public void callback(final String flatshareId) {
                 ref.document(flatshareId).collection("ToDoList").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         final List<String> list_category = new ArrayList<String>();
+                        final List<String> list_category_id = new ArrayList<String>();
                         for (DocumentSnapshot doc:task.getResult()){
                             String category = doc.getString("category");
+                            String id_category = doc.getId();
                             list_category.add(category);
+                            list_category_id.add(id_category);
                         }
-                        dropdown = findViewById(R.id.categories);
                         ArrayAdapter<String> addressAdapter = new ArrayAdapter<String>(Todo_List.this, android.R.layout.simple_spinner_item, list_category);
                         addressAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         dropdown.setAdapter(addressAdapter);
+
+
+
+                        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                                //selected_item_filter = (String)parent.getItemAtPosition(pos);
+                                DataManager.getInstance().setCategory_selected(list_category_id.get(pos));
+                                loadData(list_category_id.get(pos), flatshareId);
+                            }
+                            public void onNothingSelected(AdapterView<?> parent) {
+                            }
+                        });
                     }
                 });
             }
         });
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                selected_item_filter = (String)parent.getItemAtPosition(pos);
-                setFlatshareId(current_user_auth.getUid(), new CallBackMethods() {
-                    @Override
-                    public void callback(String flatshareId) {
-                        loadData(selected_item_filter, flatshareId);
-                    }
-                });
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+
+
 
 
     }
-
 
     private void loadData(String category, String flatshareId) {
         if (todoList.size() > 0)
             todoList.clear();
         CollectionReference ref1 = ref.document(flatshareId).collection("ToDoList");
-        ref1.document("0VToLTA80lcn3Yu6C7DJ").collection("tasks").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        ref1.document(category).collection("tasks").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(Task<QuerySnapshot> task) {
                 for (DocumentSnapshot doc:task.getResult()){
@@ -149,17 +151,23 @@ public class Todo_List extends AppCompatActivity {
         setFlatshareId(current_user_auth.getUid(), new CallBackMethods() {
             @Override
             public void callback(String flatshareId) {
-                if (item.getTitle().equals("Delete"))
-                    deleteItem(item.getOrder(),flatshareId);
+                if (item.getTitle().equals("Delete") && DataManager.getInstance().getCategory_selected() != null){
+                    System.out.println(DataManager.getInstance().getCategory_selected());
+                    deleteItem(item.getOrder(),flatshareId,DataManager.getInstance().getCategory_selected());
+                } else {
+                    System.out.println("Il est nul");
+                }
+
+
             }
         });
 
         return super.onContextItemSelected(item);
     }
 
-    private void deleteItem(int index, final String flatshareId) {
+    private void deleteItem(int index, final String flatshareId, final String category_id) {
         CollectionReference ref1 = ref.document(flatshareId).collection("ToDoList");
-        ref1.document("0VToLTA80lcn3Yu6C7DJ")
+        ref1.document(category_id)
                 .collection("tasks")
                 .document(todoList.get(index).getId())
                 .delete()
@@ -167,7 +175,7 @@ public class Todo_List extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
 
-                        loadData(selected_item_filter, flatshareId);
+                        loadData(category_id, flatshareId);
                     }
                 });
     }
