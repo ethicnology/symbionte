@@ -11,6 +11,6 @@ data class User(
 data class Flatshare(
     val ID: String? = null,
     val admin: String? = null,
-    val members: Array<String>? = null,
+    val members: List<String>? = null,
     val name: String? = null
 )

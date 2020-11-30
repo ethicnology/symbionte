@@ -1,30 +1,49 @@
 package com.ethicnology.symbionte
 
-import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 object FirebaseUtils {
     private val db = Firebase.firestore
+    private lateinit var auth: FirebaseAuth
 
-    fun getUser(UID: String): User? {
-        var result: User? = null
-        val docRef = db.collection("users").document(UID)
-        docRef.get().addOnSuccessListener { document ->
-            val user = document.toObject<User>()
-            Log.d("FirebaseUtils", "data: $user")
-            //TODO find a way to return
-        }
-        return result
-    }
-
-    fun getFlatshare(flatshareId: String){
-        val docRef = db.collection("colocations").document(flatshareId)
-        docRef.get().addOnSuccessListener { document ->
-            val flatshare = document.toObject<Flatshare>()
-            Log.d("FirebaseUtils", "data: $flatshare")
-            //TODO find a way to return
+    fun getCurrentUser(myCallback: (User) -> Unit) {
+        auth = Firebase.auth
+        val currentUser = auth.currentUser
+        currentUser?.let { it ->
+            db.collection("users").document(it.uid).get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = task.result.toObject<User>()
+                    user?.let { myCallback(it) }
+                }
+            }
         }
     }
+
+    fun getCurrentFlatshare(myCallback: (Flatshare) -> Unit){
+        getCurrentUser {
+            it.flatshareId?.let { it1 ->
+                db.collection("colocations").document(it1).get().addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val flatshare = task.result.toObject<Flatshare>()
+                        flatshare?.let { myCallback(it) }
+                    }
+                }
+            }
+        }
+    }
+
+    fun getUser(UID: String, myCallback: (User) -> Unit) {
+        db.collection("users").document(UID).get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val user = task.result.toObject<User>()
+                user?.let { myCallback(it) }
+            }
+        }
+    }
+
+
 }
