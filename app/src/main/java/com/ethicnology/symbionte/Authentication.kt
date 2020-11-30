@@ -6,17 +6,15 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import com.ethicnology.symbionte.FirebaseUtils.setUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 class Authentication : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
-    val db = Firebase.firestore
-    val TAG = "Authentication"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,20 +46,15 @@ class Authentication : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "createUserWithEmail:success")
+                    Log.d("AUTH", "createUserWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
                     // Create a user document for his/her personal data
-                    if (user != null) {
-                        db.collection("users").document(user.uid).set(mapOf(
-                            "first" to "FirstName",
-                            "last" to "LastName",
-                        ))
-                        Log.d("Firestore", "createUserDocument:success")
-                    }
+                    val newUser = user?.let { User(it.uid) }
+                    newUser?.let { setUser(it) }
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                    Log.w("AUTH", "createUserWithEmail:failure", task.exception)
                     updateUI(null)
                 }
             }
@@ -76,12 +69,12 @@ class Authentication : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "logInWithEmail:success")
+                    Log.d("AUTH", "logInWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w(TAG, "logInWithEmail:failure", task.exception)
+                    Log.w("AUTH", "logInWithEmail:failure", task.exception)
                     updateUI(null)
                 }
             }

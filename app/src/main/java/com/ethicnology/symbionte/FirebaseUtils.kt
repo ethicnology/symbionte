@@ -1,5 +1,6 @@
 package com.ethicnology.symbionte
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -9,6 +10,11 @@ import com.google.firebase.ktx.Firebase
 object FirebaseUtils {
     private val db = Firebase.firestore
     private lateinit var auth: FirebaseAuth
+
+    fun setUser(user: User){
+        db.collection("users").document(user.ID).set(user)
+        Log.d("Firestore", "createUserDocument:success")
+    }
 
     fun getCurrentUser(myCallback: (User) -> Unit) {
         auth = Firebase.auth
