@@ -2,15 +2,15 @@ package com.ethicnology.symbionte
 
 
 data class User(
-    val UID: String? = null,
-    val first: String? = null,
-    val last: String? = null,
-    val flatshareId: String? = null
+    val id: String? = null,
+    val first: String? = "FirstName",
+    val last: String? = "LastName",
+    var flatshareId: String? = null
 )
 
 data class Flatshare(
-    val ID: String? = null,
+    var name: String? = null,
     val admin: String? = null,
-    val members: Array<String>? = null,
-    val name: String? = null
+    var members: List<String>? = null,
+    var id: String? = null
 )
