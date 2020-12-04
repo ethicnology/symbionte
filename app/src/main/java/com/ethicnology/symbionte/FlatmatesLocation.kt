@@ -8,22 +8,37 @@ import com.ethicnology.symbionte.PermissionUtils.PermissionDeniedDialog.Companio
 import com.ethicnology.symbionte.PermissionUtils.isPermissionGranted
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.ethicnology.symbionte.FirebaseUtils.getCurrentFlatshare
+import com.ethicnology.symbionte.FirebaseUtils.getCurrentUser
+import com.ethicnology.symbionte.FirebaseUtils.getUser
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
-class FlatmatesLocation : AppCompatActivity(), GoogleMap.OnMyLocationButtonClickListener,
+class FlatmatesLocation : AppCompatActivity(),
     GoogleMap.OnMyLocationClickListener, OnMapReadyCallback,
     ActivityCompat.OnRequestPermissionsResultCallback {
+
     /**
      * Flag indicating whether a requested permission has been denied after returning in
      * [.onRequestPermissionsResult].
      */
     private var permissionDenied = false
     private lateinit var map: GoogleMap
+    private lateinit var auth: FirebaseAuth
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.flatmates_location)
@@ -33,9 +48,43 @@ class FlatmatesLocation : AppCompatActivity(), GoogleMap.OnMyLocationButtonClick
 
     override fun onMapReady(googleMap: GoogleMap?) {
         map = googleMap ?: return
-        googleMap.setOnMyLocationButtonClickListener(this)
         googleMap.setOnMyLocationClickListener(this)
         enableMyLocation()
+        getCurrentUser(){
+            if(it.location != null){
+                val position = LatLng(it.location!!.latitude, it.location!!.longitude)
+                val zoom = 14.0f
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoom))
+                Toast.makeText(this, "Blue Marker represents your last shared location", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "You didn't shared any location to flatmates yet", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        auth = Firebase.auth
+        val currentUser = auth.currentUser
+        Log.w("TAH", currentUser?.uid!!)
+        getCurrentFlatshare{ flatshare ->
+            flatshare.members?.forEach{ id ->
+                        getUser(id) { flatmate ->
+                            if(flatmate.location != null){
+                                val userPosition = LatLng(flatmate.location!!.latitude, flatmate.location!!.longitude)
+                                var title = flatmate.first
+                                var hue = 359
+                                if (id == currentUser.uid) {
+                                    title = "Last shared"
+                                    hue = 200
+                                }
+                                map.addMarker(
+                                    MarkerOptions()
+                                        .icon(BitmapDescriptorFactory.defaultMarker(hue.toFloat()))
+                                        .position(userPosition)
+                                        .title(title)
+                                )
+                            }
+                        }
+            }
+        }
     }
 
     /**
@@ -54,17 +103,9 @@ class FlatmatesLocation : AppCompatActivity(), GoogleMap.OnMyLocationButtonClick
         }
     }
 
-    override fun onMyLocationButtonClick(): Boolean {
-        Toast.makeText(this, "MyLocation button clicked", Toast.LENGTH_SHORT).show()
-        // Return false so that we don't consume the event and the default behavior still occurs
-        // (the camera animates to the user's current position).
-        return false
-    }
-
     override fun onMyLocationClick(p0: Location) {
-        Toast.makeText(this, "MyLocation is :\n$p0", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Your current location is :\n${p0.latitude} ${p0.longitude}", Toast.LENGTH_LONG).show()
     }
-
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {

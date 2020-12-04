@@ -13,13 +13,12 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class Authentication : AppCompatActivity() {
-
-    private lateinit var auth: FirebaseAuth
+    lateinit var auth: FirebaseAuth
+    private val TAG = "AUTH"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.authentication)
-        // Initialize Firebase Auth
         auth = Firebase.auth
     }
 
@@ -46,15 +45,14 @@ class Authentication : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d("AUTH", "createUserWithEmail:success")
+                    Log.d(TAG, "createUserWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
                     // Create a user document for his/her personal data
-                    val newUser = user?.let { User(it.uid) }
-                    newUser?.let { setUser(it) }
+                    user?.let { setUser(User(it.uid)) }
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w("AUTH", "createUserWithEmail:failure", task.exception)
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     updateUI(null)
                 }
             }
@@ -69,12 +67,12 @@ class Authentication : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d("AUTH", "logInWithEmail:success")
+                    Log.d(TAG, "logInWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w("AUTH", "logInWithEmail:failure", task.exception)
+                    Log.w(TAG, "logInWithEmail:failure", task.exception)
                     updateUI(null)
                 }
             }

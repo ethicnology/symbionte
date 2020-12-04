@@ -9,8 +9,8 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 object FirebaseUtils {
-    val db = Firebase.firestore
-    private lateinit var auth: FirebaseAuth
+    private val db = Firebase.firestore
+    lateinit var auth: FirebaseAuth
     private val TAG = "FirebaseUtils"
 
     fun setUser(user: User){
@@ -45,7 +45,6 @@ object FirebaseUtils {
                 }
             }
             .addOnFailureListener { e -> Log.w(TAG, "Error get user ${id}", e) }
-
     }
 
     fun createFlatshare(flatshare: Flatshare){
@@ -73,35 +72,43 @@ object FirebaseUtils {
         db.collection("colocations").document(flatshareId).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val flatshare = task.result.toObject<Flatshare>()
-                getCurrentUser {
-                    it.flatshareId = flatshare?.id
-                    setUser(it)
-                }
+                    getCurrentUser {
+                        if(flatshare != null && it != null) {
+                            it.flatshareId = flatshare?.id
+                            setUser(it)
+                            appendFlatshareMember(flatshare, it.id!!)
+                        }
+                    }
             }
         }
         .addOnFailureListener { e -> Log.w(TAG, "Error join flatshare", e) }
-
     }
 
     fun setFlatshare(flatshare: Flatshare){
-        db.collection("colocations").document(flatshare.id.toString())
-            .set(flatshare)
-            .addOnSuccessListener { Log.d(TAG, "Flatshare ${flatshare.id} successfully updated!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error updating flatshare", e) }
+        flatshare.id?.let {
+            db.collection("colocations").document(it)
+                .set(flatshare)
+                .addOnSuccessListener { Log.d(TAG, "Flatshare ${flatshare.id} successfully updated!") }
+                .addOnFailureListener { e -> Log.w(TAG, "Error updating flatshare", e) }
+        }
     }
 
     fun appendFlatshareMember(flatshare: Flatshare, userId: String){
-        db.collection("colocations").document(flatshare.id.toString())
-            .update("members", FieldValue.arrayUnion(userId))
-            .addOnSuccessListener { Log.d(TAG, "Flatshare ${flatshare.id} successfully updated!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error updating flatshare", e) }
+        flatshare.id?.let {
+            db.collection("colocations").document(it)
+                .update("members", FieldValue.arrayUnion(userId))
+                .addOnSuccessListener { Log.d(TAG, "Flatshare ${flatshare.id} successfully updated!") }
+                .addOnFailureListener { e -> Log.w(TAG, "Error updating flatshare", e) }
+        }
     }
 
     fun removeFlatshareMember(flatshare: Flatshare, userId: String){
-        db.collection("colocations").document(flatshare.id.toString())
-            .update("members", FieldValue.arrayRemove(userId))
-            .addOnSuccessListener { Log.d(TAG, "Flatshare ${flatshare.id} successfully updated!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error updating flatshare", e) }
+        flatshare.id?.let {
+            db.collection("colocations").document(it)
+                .update("members", FieldValue.arrayRemove(userId))
+                .addOnSuccessListener { Log.d(TAG, "Flatshare ${flatshare.id} successfully updated!") }
+                .addOnFailureListener { e -> Log.w(TAG, "Error updating flatshare", e) }
+        }
     }
 
     fun getCurrentFlatshare(myCallback: (Flatshare) -> Unit){
