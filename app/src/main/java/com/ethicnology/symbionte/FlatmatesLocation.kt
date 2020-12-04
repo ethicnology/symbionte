@@ -55,9 +55,9 @@ class FlatmatesLocation : AppCompatActivity(),
                 val position = LatLng(it.location!!.latitude, it.location!!.longitude)
                 val zoom = 14.0f
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoom))
-                Toast.makeText(this, "Your last shared location was :\n${it.location}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Blue Marker represents your last shared location", Toast.LENGTH_LONG).show()
             } else {
-                Toast.makeText(this, "Your didn't shared any location to your flatmates yet", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "You didn't shared any location to flatmates yet", Toast.LENGTH_LONG).show()
             }
         }
 
