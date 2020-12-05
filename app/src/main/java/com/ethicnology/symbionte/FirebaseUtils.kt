@@ -1,12 +1,15 @@
 package com.ethicnology.symbionte
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import java.security.AccessController.getContext
 
 object FirebaseUtils {
     private val db = Firebase.firestore
@@ -68,10 +71,11 @@ object FirebaseUtils {
             .addOnFailureListener { e -> Log.w(TAG, "Error create flatshare", e) }
     }
 
-    fun joinFlatshare(flatshareId: String){
+    fun joinFlatshare(context: Context, flatshareId: String){
         db.collection("colocations").document(flatshareId).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val flatshare = task.result.toObject<Flatshare>()
+                if (flatshare != null) {
                     getCurrentUser {
                         if(flatshare != null && it != null) {
                             it.flatshareId = flatshare?.id
@@ -79,6 +83,10 @@ object FirebaseUtils {
                             appendFlatshareMember(flatshare, it.id!!)
                         }
                     }
+                    Toast.makeText(context, "$flatshareId Flatshare joined", Toast.LENGTH_LONG).show()
+                }else{
+                    Toast.makeText(context, "Flatshare $flatshareId doesn't exist", Toast.LENGTH_LONG).show()
+                }
             }
         }
         .addOnFailureListener { e -> Log.w(TAG, "Error join flatshare", e) }
