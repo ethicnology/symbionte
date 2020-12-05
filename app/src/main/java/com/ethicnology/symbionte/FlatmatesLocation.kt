@@ -57,7 +57,8 @@ class FlatmatesLocation : AppCompatActivity(),
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(position, zoom))
                 Toast.makeText(this, "Blue Marker represents your last shared location", Toast.LENGTH_LONG).show()
             } else {
-                Toast.makeText(this, "You didn't shared any location to flatmates yet", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "You didn't shared any location yet !", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Please click on top button to go to your current location !", Toast.LENGTH_LONG).show()
             }
         }
 

@@ -47,9 +47,11 @@ class FlatshareManager : AppCompatActivity() {
 
     fun buttonJoinFlatshare(view: View){
         val flatshareId = findViewById<EditText>(R.id.editTextFlatshareName).text.toString()
+        //remove whitespace due to copy pasta
+        val idClean = flatshareId.replace("\\s".toRegex(), "")
         auth = Firebase.auth
         val authId = auth.currentUser?.uid
-        authId?.let {joinFlatshare(flatshareId)}
+        authId?.let {joinFlatshare(this, idClean)}
         getCurrentUser {
             it.flatshareId?.let { it1 -> updateUI(it1) }
         }

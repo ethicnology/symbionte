@@ -1,11 +1,12 @@
 package com.ethicnology.symbionte
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.ethicnology.symbionte.FirebaseUtils.setUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -14,7 +15,6 @@ import com.google.firebase.ktx.Firebase
 
 class Authentication : AppCompatActivity() {
     lateinit var auth: FirebaseAuth
-    private val TAG = "AUTH"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,6 @@ class Authentication : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         updateUI(currentUser)
     }
@@ -40,41 +39,48 @@ class Authentication : AppCompatActivity() {
     fun buttonSignUp(view: View){
         val email = findViewById<EditText>(R.id.editTextEmailAddress).text.toString()
         val password = findViewById<EditText>(R.id.editTextPassword).text.toString()
-
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "createUserWithEmail:success")
-                    val user = auth.currentUser
-                    updateUI(user)
-                    // Create a user document for his/her personal data
-                    user?.let { setUser(User(it.uid)) }
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    updateUI(null)
+        if(email.isNotBlank() && password.isNotBlank()){
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        val user = auth.currentUser
+                        updateUI(user)
+                        user?.let { setUser(User(it.uid)) }
+                        Toast.makeText(this, "Sign up successfully", Toast.LENGTH_SHORT).show()
+                        val gotoIncipit = Intent(this, Incipit::class.java)
+                        startActivity(gotoIncipit)
+                    } else {
+                        Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show()
+                        updateUI(null)
+                    }
                 }
-            }
+        } else {
+            Toast.makeText(this, "Please fill the form", Toast.LENGTH_SHORT).show()
+        }
+
+
     }
 
     fun buttonLogIn(view: View){
         // Get inputs values
         val email = findViewById<EditText>(R.id.editTextEmailAddress).text.toString()
         val password = findViewById<EditText>(R.id.editTextPassword).text.toString()
-        // Try to sign in using Firebase Authentication
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "logInWithEmail:success")
-                    val user = auth.currentUser
-                    updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "logInWithEmail:failure", task.exception)
-                    updateUI(null)
+        if(email.isNotBlank() && password.isNotBlank()) {
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        val user = auth.currentUser
+                        Toast.makeText(this, "Log in successfully", Toast.LENGTH_SHORT).show()
+                        updateUI(user)
+                        val gotoIncipit = Intent(this, Incipit::class.java)
+                        startActivity(gotoIncipit)
+                    } else {
+                        Toast.makeText(this, "Log in failed", Toast.LENGTH_SHORT).show()
+                        updateUI(null)
+                    }
                 }
-            }
+        } else {
+            Toast.makeText(this, "Please fill the form", Toast.LENGTH_SHORT).show()
+        }
     }
 }
