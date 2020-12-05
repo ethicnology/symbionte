@@ -1,5 +1,6 @@
 package com.ethicnology.symbionte
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -45,9 +46,11 @@ class Authentication : AppCompatActivity() {
                         val user = auth.currentUser
                         updateUI(user)
                         user?.let { setUser(User(it.uid)) }
-                        Toast.makeText(this, "Sign up successfully", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Sign up successfully", Toast.LENGTH_SHORT).show()
+                        val gotoIncipit = Intent(this, Incipit::class.java)
+                        startActivity(gotoIncipit)
                     } else {
-                        Toast.makeText(this, "Sign up failed", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Sign up failed", Toast.LENGTH_SHORT).show()
                         updateUI(null)
                     }
                 }
@@ -67,10 +70,12 @@ class Authentication : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         val user = auth.currentUser
-                        Toast.makeText(this, "Log in successfull", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Log in successfully", Toast.LENGTH_SHORT).show()
                         updateUI(user)
+                        val gotoIncipit = Intent(this, Incipit::class.java)
+                        startActivity(gotoIncipit)
                     } else {
-                        Toast.makeText(this, "Log in failed", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Log in failed", Toast.LENGTH_SHORT).show()
                         updateUI(null)
                     }
                 }

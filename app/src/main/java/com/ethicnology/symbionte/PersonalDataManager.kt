@@ -1,11 +1,13 @@
 package com.ethicnology.symbionte
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.text.Editable
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ethicnology.symbionte.FirebaseUtils.getCurrentUser
 import com.ethicnology.symbionte.FirebaseUtils.setUser
@@ -60,6 +62,9 @@ class PersonalDataManager : AppCompatActivity() {
                 it.location = GeoPoint(latitude.toDouble(), longitude.toDouble())
             }
             setUser(it)
+            Toast.makeText(this, "Personal data updated", Toast.LENGTH_SHORT).show()
+            val gotoIncipit = Intent(this, Incipit::class.java)
+            startActivity(gotoIncipit)
         }
     }
 
