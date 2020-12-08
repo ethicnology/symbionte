@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ethicnology.symbionte.Model.Todo;
 import com.ethicnology.symbionte.R;
-import com.ethicnology.symbionte.Todo_List;
+import com.ethicnology.symbionte.TodoList.Todo_List;
 
+import java.text.BreakIterator;
 import java.util.List;
 
 class ListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener{
 
 
-
-    TextView item_title,item_description;
+    TextView item_title,item_description,item_user_first;
 
     public ListItemViewHolder(View itemView) {
         super(itemView);
@@ -27,6 +27,7 @@ class ListItemViewHolder extends RecyclerView.ViewHolder implements View.OnClick
 
         item_title = (TextView)itemView.findViewById(R.id.item_title);
         item_description = (TextView)itemView.findViewById(R.id.item_description);
+        item_user_first = (TextView)itemView.findViewById(R.id.item_user_first);
     }
 
 
@@ -68,6 +69,7 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemViewHolder>{
     public void onBindViewHolder(ListItemViewHolder holder, int position) {
         holder.item_title.setText(todoList.get(position).getTitle());
         holder.item_description.setText(todoList.get(position).getDescription());
+        holder.item_user_first.setText("For : " + todoList.get(position).getUser_first());
     }
 
     @Override
