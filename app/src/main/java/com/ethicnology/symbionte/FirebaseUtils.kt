@@ -67,8 +67,32 @@ object FirebaseUtils {
                     it.flatshareId = flatshare.id
                     setUser(it)
                 }
+                createCategoriesTodoList(flatshare.id!!)
             }
             .addOnFailureListener { e -> Log.w(TAG, "Error create flatshare", e) }
+    }
+    private fun createCategoriesTodoList(id : String){
+        val home = hashMapOf(
+            "category" to "Home",
+        )
+        val miscellaneous = hashMapOf(
+            "category" to "Miscellaneous",
+        )
+        val shopping = hashMapOf(
+            "category" to "Shopping",
+        )
+        db.collection("colocations")
+            .document(id)
+            .collection("ToDoList")
+            .add(home)
+        db.collection("colocations")
+            .document(id)
+            .collection("ToDoList")
+            .add(miscellaneous)
+        db.collection("colocations")
+            .document(id)
+            .collection("ToDoList")
+            .add(shopping)
     }
 
     fun joinFlatshare(context: Context, flatshareId: String){
