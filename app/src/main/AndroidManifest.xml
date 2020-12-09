@@ -82,6 +82,13 @@
                 android:value=".TodoList.Todo_List" />
         </activity>
         <activity
+            android:name=".TodoList.History_todo"
+            android:parentActivityName=".TodoList.Todo_List">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".TodoList.Todo_List" />
+        </activity>
+        <activity
             android:name=".Calendar"
             android:parentActivityName=".Incipit">
             <meta-data

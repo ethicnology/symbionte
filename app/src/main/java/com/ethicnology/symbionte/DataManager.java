@@ -3,6 +3,7 @@ package com.ethicnology.symbionte;
 import androidx.annotation.NonNull;
 
 import com.ethicnology.symbionte.Model.Todo;
+import com.ethicnology.symbionte.TodoList.Add_Todo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -50,6 +51,22 @@ public class DataManager {
         this.todo = todo;
     }
 
+    public void setFlatshareId(String UID, final CallBackMethods callBackMethods){
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(UID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot doc = task.getResult();
+                String result = doc.getString("flatshareId");
+                callBackMethods.callback(result);
+
+            }
+        });
+    }
 
 
 }
+
+
+
+

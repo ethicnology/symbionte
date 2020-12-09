@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ethicnology.symbionte.CallBackMethods;
 import com.ethicnology.symbionte.DataManager;
 import com.ethicnology.symbionte.Model.Todo;
 import com.ethicnology.symbionte.R;
@@ -58,7 +59,7 @@ public class Add_Todo extends AppCompatActivity {
         add = (Button)findViewById(R.id.send_data);
         spinner_category = findViewById(R.id.spinner_category);
         spinner_user = findViewById(R.id.dropdown_user);
-        setFlatshareId(current_user_auth.getUid(), new CallBackMethods() {
+        DataManager.getInstance().setFlatshareId(current_user_auth.getUid(), new CallBackMethods() {
             @Override
             public void callback(final String flatshareId) {
                 final List<String>[] list_id_users = new List[]{new ArrayList<String>()};
@@ -154,20 +155,5 @@ public class Add_Todo extends AppCompatActivity {
             }
         });
     }
-    public void setFlatshareId(String UID, final CallBackMethods callBackMethods){
-        DocumentReference docRef = db.collection("users").document(UID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot doc = task.getResult();
-                String result = doc.getString("flatshareId");
-                callBackMethods.callback(result);
 
-            }
-        });
-    }
-
-    interface CallBackMethods{
-        void callback(String flatshareId);
-    }
 }

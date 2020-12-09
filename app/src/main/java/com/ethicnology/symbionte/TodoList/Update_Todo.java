@@ -7,33 +7,28 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ethicnology.symbionte.CallBackMethods;
 import com.ethicnology.symbionte.DataManager;
 import com.ethicnology.symbionte.Model.Todo;
 import com.ethicnology.symbionte.R;
-import com.ethicnology.symbionte.adapter.ListItemAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Update_Todo extends AppCompatActivity {
     FirebaseFirestore db;
@@ -59,7 +54,7 @@ public class Update_Todo extends AppCompatActivity {
         update = findViewById(R.id.update);
         spinner_user = findViewById(R.id.dropdown_user);
 
-        setFlatshareId(current_user_auth.getUid(), new Add_Todo.CallBackMethods() {
+        DataManager.getInstance().setFlatshareId(current_user_auth.getUid(), new CallBackMethods() {
             @Override
             public void callback(final String flatshareId) {
                 final List<String>[] list_id_users = new List[]{new ArrayList<String>()};
@@ -101,7 +96,7 @@ public class Update_Todo extends AppCompatActivity {
                     final Todo todo = getIntent().getParcelableExtra("Todo");
                     input_title.setHint(todo.getTitle());
                     input_description.setHint(todo.getDescription());
-                    setFlatshareId(current_user_auth.getUid(), new Add_Todo.CallBackMethods() {
+                    DataManager.getInstance().setFlatshareId(current_user_auth.getUid(), new CallBackMethods() {
                         @Override
                         public void callback(final String flatshareId) {
                             ref.document(flatshareId).collection("ToDoList").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -130,27 +125,6 @@ public class Update_Todo extends AppCompatActivity {
                 }
             }
         });
-    }
-
-
-
-
-
-    public void setFlatshareId(String UID, final Add_Todo.CallBackMethods callBackMethods){
-        DocumentReference docRef = db.collection("users").document(UID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot doc = task.getResult();
-                String result = doc.getString("flatshareId");
-                callBackMethods.callback(result);
-
-            }
-        });
-    }
-
-    interface CallBackMethods{
-        void callback(String flatshareId);
     }
 
     private void modifyItem(final String flatshareId, final String category_id, Todo todo) {

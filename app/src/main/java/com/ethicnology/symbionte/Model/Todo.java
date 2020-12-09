@@ -9,9 +9,11 @@ public class Todo implements Parcelable {
     private String description;
     private String id;
     private String user_first;
-
+    private Boolean deleted;
 
     public Todo() {
+
+
 
     }
 
@@ -20,6 +22,13 @@ public class Todo implements Parcelable {
         this.description = description;
         this.id = id;
         this.user_first = user_first;
+    }
+    public Todo(String id, String title, String description, String user_first, Boolean deleted) {
+        this.title = title;
+        this.description = description;
+        this.id = id;
+        this.user_first = user_first;
+        this.deleted = deleted;
     }
 
     protected Todo(Parcel in) {
@@ -84,5 +93,14 @@ public class Todo implements Parcelable {
 
     public void setUser_first(String user_first) {
         this.user_first = user_first;
+    }
+
+
+    public Boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 }
