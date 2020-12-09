@@ -61,18 +61,32 @@
                 android:value=".Incipit" />
         </activity>
         <activity
-            android:name=".Todo_List"
+            android:name=".TodoList.Todo_List"
             android:parentActivityName=".Incipit">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Incipit" />
         </activity>
         <activity
-            android:name=".Send_Todo"
-            android:parentActivityName=".Todo_List">
+            android:name=".TodoList.Add_Todo"
+            android:parentActivityName=".TodoList.Todo_List">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Todo_List" />
+                android:value=".TodoList.Todo_List" />
+        </activity>
+        <activity
+            android:name=".TodoList.Update_Todo"
+            android:parentActivityName=".TodoList.Todo_List">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".TodoList.Todo_List" />
+        </activity>
+        <activity
+            android:name=".TodoList.History_todo"
+            android:parentActivityName=".TodoList.Todo_List">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".TodoList.Todo_List" />
         </activity>
         <activity
             android:name=".Calendar"

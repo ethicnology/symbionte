@@ -1,8 +1,8 @@
-package com.ethicnology.symbionte;
+package com.ethicnology.symbionte.TodoList;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,12 +12,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ethicnology.symbionte.DataManager;
+import com.ethicnology.symbionte.CallBackMethods;
 import com.ethicnology.symbionte.Model.Todo;
-import com.ethicnology.symbionte.adapter.ListItemAdapter;
+import com.ethicnology.symbionte.R;
+import com.ethicnology.symbionte.adapter.ListTodoAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,9 +45,10 @@ public class Todo_List extends AppCompatActivity {
     RecyclerView listItem;
     RecyclerView.LayoutManager layoutManager;
     Spinner dropdown;
-    FloatingActionButton fab;
-    String selected_item_filter;
-    ListItemAdapter adapter;
+    FloatingActionButton add;
+    FloatingActionButton history;
+
+    ListTodoAdapter adapter;
     CollectionReference ref;
     FirebaseUser current_user_auth;
 
@@ -66,22 +69,44 @@ public class Todo_List extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         listItem.setLayoutManager(layoutManager);
 
-        fab = (FloatingActionButton)findViewById(R.id.add_item);
-        fab.setOnClickListener(new View.OnClickListener() {
+        add = (FloatingActionButton)findViewById(R.id.add_item);
+        add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Todo_List.this,Send_Todo.class);
+                Intent intent = new Intent(Todo_List.this, Add_Todo.class);
+                startActivity(intent);
+            }
+        });
+        history = (FloatingActionButton)findViewById(R.id.history);
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Todo_List.this, History_todo.class);
                 startActivity(intent);
             }
         });
 
 
-
-
         dropdown = findViewById(R.id.categories);
-        setFlatshareId(current_user_auth.getUid(), new CallBackMethods() {
+        DataManager.getInstance().setFlatshareId(current_user_auth.getUid(), new CallBackMethods() {
             @Override
             public void callback(final String flatshareId) {
+
+                ref.document(flatshareId).collection("members").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(Task<QuerySnapshot> task) {
+                        for (DocumentSnapshot doc:task.getResult()){
+                            System.out.println("ID : "+doc.getId());
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        System.out.println("ECHEC");
+                    }
+                });
+
+
                 ref.document(flatshareId).collection("ToDoList").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -101,6 +126,7 @@ public class Todo_List extends AppCompatActivity {
 
                         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
                                 //selected_item_filter = (String)parent.getItemAtPosition(pos);
                                 DataManager.getInstance().setCategory_selected(list_category_id.get(pos));
                                 loadData(list_category_id.get(pos), flatshareId);
@@ -129,11 +155,12 @@ public class Todo_List extends AppCompatActivity {
                     Todo todo = new Todo(
                             doc.getId(),
                             doc.getString("title"),
-                            doc.getString("description")
+                            doc.getString("description"),
+                            doc.getString("user_first")
                     );
                     todoList.add(todo);
                 }
-                adapter = new ListItemAdapter(Todo_List.this,todoList);
+                adapter = new ListTodoAdapter(Todo_List.this,todoList);
                 listItem.setAdapter(adapter);
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -148,25 +175,39 @@ public class Todo_List extends AppCompatActivity {
 
     @Override
     public boolean onContextItemSelected(final MenuItem item) {
-        setFlatshareId(current_user_auth.getUid(), new CallBackMethods() {
+        DataManager.getInstance().setFlatshareId(current_user_auth.getUid(), new CallBackMethods() {
             @Override
             public void callback(String flatshareId) {
                 if (item.getTitle().equals("Delete") && DataManager.getInstance().getCategory_selected() != null){
-                    System.out.println(DataManager.getInstance().getCategory_selected());
-                    deleteItem(item.getOrder(),flatshareId,DataManager.getInstance().getCategory_selected());
-                } else {
-                    System.out.println("Il est nul");
+                    deleteItem(item.getOrder(),true,todoList.get(item.getOrder()),flatshareId,DataManager.getInstance().getCategory_selected());
                 }
-
-
+                else if (item.getTitle().equals("Modify") && DataManager.getInstance().getCategory_selected() != null){
+                    Intent intent = new Intent(Todo_List.this,Update_Todo.class);
+                    intent.putExtra("Todo", (Parcelable) todoList.get(item.getOrder()));
+                    startActivity(intent);
+                }
+                else if (item.getTitle().equals("Done") && DataManager.getInstance().getCategory_selected() != null){
+                    deleteItem(item.getOrder(),false,todoList.get(item.getOrder()),flatshareId,DataManager.getInstance().getCategory_selected());
+                }
             }
         });
-
         return super.onContextItemSelected(item);
     }
 
-    private void deleteItem(int index, final String flatshareId, final String category_id) {
+    private void deleteItem(int index,Boolean isDeleted,Todo todo, final String flatshareId, final String category_id) {
+        todo.setDeleted(isDeleted);
         CollectionReference ref1 = ref.document(flatshareId).collection("ToDoList");
+        ref1.document(category_id)
+                .collection("history_tasks")
+                .document(todo.getId())
+                .set(todo).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(Todo_List.this,"task has been upload", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
         ref1.document(category_id)
                 .collection("tasks")
                 .document(todoList.get(index).getId())
@@ -174,28 +215,14 @@ public class Todo_List extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
                         loadData(category_id, flatshareId);
                     }
                 });
     }
 
-    public void setFlatshareId(String UID, final CallBackMethods callBackMethods){
 
-        DocumentReference docRef = db.collection("users").document(UID);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot doc = task.getResult();
-                String result = doc.getString("flatshareId");
-                callBackMethods.callback(result);
-            }
-        });
-    }
 
-    interface CallBackMethods{
-        void callback(String flatshareId);
-    }
+
 
 
 
