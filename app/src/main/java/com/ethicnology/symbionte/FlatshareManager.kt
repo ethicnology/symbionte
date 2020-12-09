@@ -59,7 +59,6 @@ class FlatshareManager : AppCompatActivity() {
                     // Add the created FlatshareManager Id to user document
                     db.collection("users").document(authUser.uid).update("flatshareId", documentReference.id)
                     Log.d("Firestore", "updateUser ${authUser.uid} :success")
-                    createCategoriesTodoList(documentReference.id)
                     updateUI(authUser)
                 }
                 .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }
@@ -99,27 +98,4 @@ class FlatshareManager : AppCompatActivity() {
         }
     }
 
-    private fun createCategoriesTodoList(id : String){
-        val home = hashMapOf(
-            "category" to "Home",
-        )
-        val miscellaneous = hashMapOf(
-            "category" to "Miscellaneous",
-        )
-        val shopping = hashMapOf(
-            "category" to "Shopping",
-        )
-        db.collection("colocations")
-            .document(id)
-            .collection("ToDoList")
-            .add(home)
-        db.collection("colocations")
-            .document(id)
-            .collection("ToDoList")
-            .add(miscellaneous)
-        db.collection("colocations")
-            .document(id)
-            .collection("ToDoList")
-            .add(shopping)
-    }
 }
