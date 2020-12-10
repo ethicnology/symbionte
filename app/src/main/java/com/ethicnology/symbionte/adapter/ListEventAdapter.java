@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ethicnology.symbionte.Calendar;
-import com.ethicnology.symbionte.Event_model;
+import com.ethicnology.symbionte.calendar.Calendar;
+import com.ethicnology.symbionte.Model.Event_model;
 import com.ethicnology.symbionte.R;
 
 import java.util.List;
@@ -33,11 +33,13 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventViewHolder> 
 
     @Override
     public void onBindViewHolder(ListEventViewHolder holder, int position) {
+        if (eventList.get(position).getTime() != null){
+            holder.event_time.setText(eventList.get(position).getTime());
+        }
         holder.event_name.setText(eventList.get(position).getName());
-        holder.event_date.setText(eventList.get(position).getDate());
+        System.out.println(eventList.get(position).getCreated_by());
+        holder.event_created_by.setText("created by " + eventList.get(position).getCreated_by());
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -47,15 +49,16 @@ public class ListEventAdapter extends RecyclerView.Adapter<ListEventViewHolder> 
 
 class ListEventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
 
-    TextView event_date, event_name;
+    TextView event_time, event_name, event_created_by;
 
     public ListEventViewHolder(View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
         itemView.setOnCreateContextMenuListener(this);
 
-        event_date = (TextView)itemView.findViewById(R.id.event_date_single);
-        event_name = (TextView)itemView.findViewById(R.id.event_name_single);
+        event_time = itemView.findViewById(R.id.event_time_single);
+        event_name = itemView.findViewById(R.id.event_name_single);
+        event_created_by = itemView.findViewById(R.id.event_created_by);
     }
 
     @Override
@@ -65,8 +68,8 @@ class ListEventViewHolder extends RecyclerView.ViewHolder implements View.OnClic
 
     @Override
     public void onCreateContextMenu(ContextMenu contextMenu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        contextMenu.setHeaderTitle("Select the action");
-        contextMenu.add(0,0,getAdapterPosition(),"example");
+        //contextMenu.setHeaderTitle("Click to delete");
+        contextMenu.add(0,0,getAdapterPosition(),"Delete");
     }
 }
 

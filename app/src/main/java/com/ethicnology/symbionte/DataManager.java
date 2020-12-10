@@ -18,7 +18,7 @@ public class DataManager {
 
 
     private String category_selected = null;
-
+    private ArrayList<String> members_selected = new ArrayList<>();
 
 
     private Todo todo = null;
@@ -49,6 +49,20 @@ public class DataManager {
 
     public void setTodo(Todo todo) {
         this.todo = todo;
+    }
+
+    public ArrayList<String> getMembers_selected() {
+        return members_selected;
+    }
+    public void add_member(String member){
+        this.members_selected.add(member);
+    }
+    public void delete_member(String member){
+        this.members_selected.remove(member);
+    }
+
+    public void setMembers_selected(ArrayList<String> members_selected) {
+        this.members_selected = members_selected;
     }
 
     public void setFlatshareId(String UID, final CallBackMethods callBackMethods){
