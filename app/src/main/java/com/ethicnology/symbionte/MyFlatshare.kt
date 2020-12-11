@@ -1,8 +1,8 @@
 package com.ethicnology.symbionte
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +21,6 @@ class MyFlatshare : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.my_flatshare)
-
         getCurrentFlatshare { flatshare ->
             updateFlatshareUI(flatshare)
             flatshare.admin?.let { user ->
@@ -52,22 +51,22 @@ class MyFlatshare : AppCompatActivity() {
         findViewById<TextView>(R.id.textViewAdminFirst).text = admin.first
         findViewById<TextView>(R.id.textViewAdminLast).text = admin.last
     }
+
+    fun buttonFlatsharePlus(view: View){
+        val gotoFlatshareManager = Intent(this, FlatshareManager::class.java).apply {putExtra(EXTRA_MESSAGE, data)}
+        startActivity(gotoFlatshareManager)
+    }
 }
 
 class UserAdapter(private val dataSet: List<User>) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val userFirst: TextView
-        val userLast: TextView
-        init {
-            userFirst = view.findViewById(R.id.userFirst)
-            userLast = view.findViewById(R.id.userLast)
-        }
+        val userFirst: TextView = view.findViewById(R.id.userFirst)
+        val userLast: TextView = view.findViewById(R.id.userLast)
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.user_adapter, viewGroup, false)
+        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.user_adapter, viewGroup, false)
         return ViewHolder(view)
     }
 
