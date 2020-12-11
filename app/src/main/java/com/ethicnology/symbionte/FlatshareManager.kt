@@ -21,6 +21,7 @@ class FlatshareManager : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.flatshare_manager)
     }
+
     override fun onStart(){
         super.onStart()
         auth = Firebase.auth
@@ -29,7 +30,6 @@ class FlatshareManager : AppCompatActivity() {
             it.flatshareId?.let { it1 -> updateUI(it1) }
         }
     }
-
 
     private fun updateUI(flatshareId: String){
         findViewById<TextView>(R.id.textViewFlatshareId).text = flatshareId

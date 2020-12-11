@@ -27,7 +27,7 @@ class Incipit : AppCompatActivity(), CellClickListener {
         setContentView(R.layout.incipit)
         viewManager = LinearLayoutManager(this)
 
-        viewAdapter = MyAdapter(arrayOf("Incipit", "Authentication", "PersonalDataManager", "FlatmatesLocation", "FlatshareManager", "Todo_List", "Calendar", "Else"), this)
+        viewAdapter = MyAdapter(arrayOf("Incipit", "Authentication", "PersonalDataManager", "FlatmatesLocation", "MyFlatshare","FlatshareManager", "Todo_List", "Calendar", "Else"), this)
 
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
             // use this setting to improve performance if you know that changes
@@ -50,6 +50,7 @@ class Incipit : AppCompatActivity(), CellClickListener {
             "FlatshareManager" -> FlatshareManager::class.java
             "FlatmatesLocation" -> FlatmatesLocation::class.java
             "Calendar" -> Calendar::class.java
+            "MyFlatshare" -> MyFlatshare::class.java
             else -> Incipit::class.java
         }
         val intent = Intent(this, activity).apply {putExtra(EXTRA_MESSAGE, data)}
