@@ -39,7 +39,7 @@ class Incipit : AppCompatActivity(), CellClickListener {
         }
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(arrayOf("My Flatshare", "My Data", "Flatmates Map", "Todo_List", "Calendar", "Else"), this)
+        viewAdapter = MyAdapter(arrayOf("My Flatshare", "My Data", "Flatmates Map", "Todo Lists", "Calendar"), this)
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
@@ -62,7 +62,7 @@ class Incipit : AppCompatActivity(), CellClickListener {
             "My Data" -> PersonalDataManager::class.java
             "My Flatshare" -> MyFlatshare::class.java
             "Flatmates Map" -> FlatmatesLocation::class.java
-            "Todo_List" -> Todo_List::class.java
+            "Todo Lists" -> Todo_List::class.java
             "Calendar" -> Calendar::class.java
             else -> Incipit::class.java
         }
