@@ -223,7 +223,7 @@ public class Add_event extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("failure", "Error event");
+                Log.d("failure", "Can't add new event");
 
             }
         });

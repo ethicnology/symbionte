@@ -173,6 +173,8 @@ public class Calendar extends AppCompatActivity {
         return super.onContextItemSelected(item);
     }
 
+
+
     private void deleteEvent(Event_model event, final String flatshareId){
         CollectionReference ref1 = ref.document(flatshareId).collection("Events");
         ref1.document(event.getId())
