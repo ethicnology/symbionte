@@ -39,7 +39,7 @@ class Incipit : AppCompatActivity(), CellClickListener {
         }
 
         viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(arrayOf("Incipit", "Authentication", "PersonalDataManager", "FlatmatesLocation", "MyFlatshare","FlatshareManager", "Todo_List", "Calendar", "Else"), this)
+        viewAdapter = MyAdapter(arrayOf("My Flatshare", "My Data", "Flatmates Map", "Todo_List", "Calendar", "Else"), this)
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
             setHasFixedSize(true)
             layoutManager = viewManager
@@ -59,13 +59,11 @@ class Incipit : AppCompatActivity(), CellClickListener {
     override fun onCellClickListener(data: String) {
         Toast.makeText(this,data, Toast.LENGTH_SHORT).show()
         val activity = when(data){
-            "Authentication" -> Authentication::class.java
-            "PersonalDataManager" -> PersonalDataManager::class.java
+            "My Data" -> PersonalDataManager::class.java
+            "My Flatshare" -> MyFlatshare::class.java
+            "Flatmates Map" -> FlatmatesLocation::class.java
             "Todo_List" -> Todo_List::class.java
-            "FlatshareManager" -> FlatshareManager::class.java
-            "FlatmatesLocation" -> FlatmatesLocation::class.java
             "Calendar" -> Calendar::class.java
-            "MyFlatshare" -> MyFlatshare::class.java
             else -> Incipit::class.java
         }
         val intent = Intent(this, activity).apply {putExtra(EXTRA_MESSAGE, data)}
