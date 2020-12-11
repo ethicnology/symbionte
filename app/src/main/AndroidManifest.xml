@@ -89,18 +89,18 @@
                 android:value=".TodoList.Todo_List" />
         </activity>
         <activity
-            android:name=".Calendar"
+            android:name=".calendar.Calendar"
             android:parentActivityName=".Incipit">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Incipit" />
         </activity>
         <activity
-            android:name=".Add_event"
-            android:parentActivityName=".Calendar">
+            android:name=".calendar.Add_event"
+            android:parentActivityName=".calendar.Calendar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Calendar" />
+                android:value=".calendar.Calendar" />
         </activity>
         <activity android:name=".Incipit">
             <intent-filter>

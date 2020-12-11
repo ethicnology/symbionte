@@ -31,7 +31,7 @@ class FlatshareManager : AppCompatActivity() {
     }
 
 
-    private fun updateUI(flatshareId: String){
+    private fun updateUI(flatshareId: String) {
         findViewById<TextView>(R.id.textViewFlatshareId).text = flatshareId
     }
 
@@ -57,5 +57,4 @@ class FlatshareManager : AppCompatActivity() {
             it.flatshareId?.let { it1 -> updateUI(it1) }
         }
     }
-
 }
