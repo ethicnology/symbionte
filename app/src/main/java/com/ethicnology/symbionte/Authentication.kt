@@ -20,6 +20,12 @@ class Authentication : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.authentication)
         auth = Firebase.auth
+        val checkAuth = Firebase.auth.currentUser
+        if (checkAuth != null){
+            Toast.makeText(this, "Already authentified", Toast.LENGTH_SHORT).show()
+            val gotoIncipit = Intent(this,Incipit::class.java).apply {putExtra(EXTRA_MESSAGE, data)}
+            startActivity(gotoIncipit)
+        }
     }
 
     public override fun onStart() {

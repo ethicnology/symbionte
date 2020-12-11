@@ -13,7 +13,9 @@ import com.ethicnology.symbionte.FirebaseUtils.getCurrentUser
 import com.ethicnology.symbionte.FirebaseUtils.setUser
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.GeoPoint
+import com.google.firebase.ktx.Firebase
 
 
 class PersonalDataManager : AppCompatActivity() {

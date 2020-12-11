@@ -9,7 +9,6 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import java.security.AccessController.getContext
 
 object FirebaseUtils {
     private val db = Firebase.firestore
