@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,9 +41,10 @@ public class Add_Refund extends Activity {
         setContentView(R.layout.add_refund);
         db = FirebaseFirestore.getInstance();
         current_user_id = FirebaseAuth.getInstance().getCurrentUser();
-
+        final TextView amount_refund_user = findViewById(R.id.amount_refund_user);
         add = findViewById(R.id.add_Refund_button);
         amount_refund = findViewById(R.id.Refund_amout_add);
+        cancel = findViewById(R.id.cancel_Refund_button);
         DataManager.getInstance().setFlatshareId(current_user_id.getUid(), new CallBackMethods() {
             @Override
             public void callback(final String flatshareId) {
@@ -50,22 +52,31 @@ public class Add_Refund extends Activity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         final String user = documentSnapshot.getString("first");
-                        add.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
-                                Refund refund = new Refund(user,date,amount_refund.getText().toString());
-                                if (getIntent().getExtras() != null){
-                                    add_refund(user,flatshareId, getIntent().getStringExtra("bill_id"),refund);
-                                }
+                        if (getIntent().getExtras() != null){
+                            Float refund_amount = (float) getIntent().getIntExtra("amount_bill", 0) / getIntent().getIntExtra("nb_members",0);
+                            amount_refund_user.setText(refund_amount.toString() + " €");
+                            add.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+                                    Refund refund = new Refund(user,date,amount_refund.getText().toString());
 
-                            }
-                        });
+                                        add_refund(user,flatshareId, getIntent().getStringExtra("bill_id"),refund);
+                                    }
+
+                                });
+                        }
                     }
                 });
             }
         });
-
+    cancel.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(Add_Refund.this, Expenses.class);
+            startActivity(intent);
+        }
+    });
     }
 
 

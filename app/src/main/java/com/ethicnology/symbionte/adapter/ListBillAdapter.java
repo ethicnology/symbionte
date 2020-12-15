@@ -80,7 +80,7 @@ public class ListBillAdapter extends RecyclerView.Adapter<ListBillViewHolder>{
         holder.bill_refund.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.startRefundActivity(billList.get(position).getId());
+                activity.startRefundActivity(billList.get(position));
             }
         });
     }

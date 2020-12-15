@@ -100,7 +100,13 @@ public class Add_Bill extends AppCompatActivity {
             }
 
         });
-
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Add_Bill.this, Expenses.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void  add_bill(final String flatshareId,String date, String name, int amount, String createdBy, ArrayList<String> members){

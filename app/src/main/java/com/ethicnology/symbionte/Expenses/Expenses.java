@@ -168,11 +168,13 @@ public class Expenses extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(Task<QuerySnapshot> task) {
-                        int result = 0;
+                        float result = 0;
                         for (DocumentSnapshot doc:task.getResult()){
-                            result = result + ((Long)doc.get("amount")).intValue();
-                            current_user_amount.setText("Mon total : "+ String.valueOf(result) + " €");
+                            ArrayList<String> listUsers = (ArrayList<String>) doc.get("members");
+                            result = (float) (result + (((Long)doc.get("amount")).intValue() / listUsers.size()));
+
                         }
+                        current_user_amount.setText("Mon total : "+ String.valueOf(result) + " €");
                         }
                     });
                 }
@@ -195,9 +197,12 @@ public class Expenses extends AppCompatActivity {
     }
 
 
-    public void startRefundActivity(String bill_id) {
+    public void startRefundActivity(Bill bill) {
         Intent intent = new Intent(Expenses.this, Add_Refund.class);
-        intent.putExtra("bill_id", bill_id);
+        intent.putExtra("bill_id", bill.getId());
+        intent.putExtra("amount_bill", bill.getAmount());
+        intent.putExtra("nb_members", bill.getMembers().size());
+
         startActivity(intent);
     }
 }
