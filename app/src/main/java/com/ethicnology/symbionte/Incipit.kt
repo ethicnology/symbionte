@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ethicnology.symbionte.Expenses.Expenses
 import com.ethicnology.symbionte.TodoList.Todo_List
 import com.ethicnology.symbionte.calendar.Calendar
 
@@ -28,7 +29,7 @@ class Incipit : AppCompatActivity(), CellClickListener {
         setContentView(R.layout.incipit)
         viewManager = LinearLayoutManager(this)
 
-        viewAdapter = MyAdapter(arrayOf("Incipit", "Authentication", "PersonalDataManager", "FlatmatesLocation", "FlatshareManager", "Todo_List", "Calendar", "Else"), this)
+        viewAdapter = MyAdapter(arrayOf("Incipit", "Authentication", "PersonalDataManager", "FlatmatesLocation", "FlatshareManager", "Todo_List","Expenses", "Calendar", "Else"), this)
 
         recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
             // use this setting to improve performance if you know that changes
@@ -48,6 +49,7 @@ class Incipit : AppCompatActivity(), CellClickListener {
             "Authentication" -> Authentication::class.java
             "PersonalDataManager" -> PersonalDataManager::class.java
             "Todo_List" -> Todo_List::class.java
+            "Expenses" -> Expenses::class.java
             "FlatshareManager" -> FlatshareManager::class.java
             "FlatmatesLocation" -> FlatmatesLocation::class.java
             "Calendar" -> Calendar::class.java

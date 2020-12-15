@@ -6,12 +6,12 @@ public class Bill {
     private String name;
     private String created_by;
     private String date;
-    private String amount;
+    private int amount;
     private ArrayList<String> members;
     private ArrayList<Refund> refunds;
+    private String id;
 
-
-    public Bill(String name, String created_by, String date, String amount, ArrayList<String> members) {
+    public Bill(String name, String created_by, String date, int amount, ArrayList<String> members) {
         this.name = name;
         this.created_by = created_by;
         this.date = date;
@@ -20,7 +20,7 @@ public class Bill {
     }
 
 
-    public Bill(String name, String created_by, String date, String amount, ArrayList<String> members, ArrayList<Refund> refunds) {
+    public Bill(String name, String created_by, String date, int amount, ArrayList<String> members, ArrayList<Refund> refunds) {
         this.name = name;
         this.created_by = created_by;
         this.date = date;
@@ -53,11 +53,11 @@ public class Bill {
         this.date = date;
     }
 
-    public String getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
@@ -80,5 +80,13 @@ public class Bill {
     }
     public void addRefund(Refund refund) {
         this.refunds.add(refund);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -89,6 +89,27 @@
                 android:value=".TodoList.Todo_List" />
         </activity>
         <activity
+            android:name=".Expenses.Expenses"
+            android:parentActivityName=".Incipit">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Incipit" />
+        </activity>
+        <activity
+            android:name=".Expenses.Add_Bill"
+            android:parentActivityName=".Incipit">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Expenses.Expenses" />
+        </activity>
+        <activity
+            android:name=".Expenses.Add_Refund"
+            android:parentActivityName=".Incipit">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Expenses.Expenses" />
+        </activity>
+        <activity
             android:name=".calendar.Calendar"
             android:parentActivityName=".Incipit">
             <meta-data

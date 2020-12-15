@@ -32,6 +32,7 @@ public class ListMemberAdapter extends RecyclerView.Adapter<ListMemberViewHolder
 
     @Override
     public void onBindViewHolder(final ListMemberViewHolder holder, int position) {
+        DataManager.getInstance().clear_members();
         holder.checkBox.setText(members_list.get(position));
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -42,7 +43,6 @@ public class ListMemberAdapter extends RecyclerView.Adapter<ListMemberViewHolder
                 else {
                     DataManager.getInstance().delete_member((String) holder.checkBox.getText());
                 }
-                System.out.println(holder.checkBox.getText());
             }
         });
     }

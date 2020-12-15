@@ -3,25 +3,15 @@ package com.ethicnology.symbionte.Model;
 import java.util.ArrayList;
 
 public class Refund {
-    private String name;
     private String created_by;
     private String date;
     private String amount;
+    private String id;
 
-
-    public Refund(String name, String created_by, String date, String amount) {
-        this.name = name;
+    public Refund(String created_by, String date, String amount) {
         this.created_by = created_by;
         this.date = date;
         this.amount = amount;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getCreated_by() {
@@ -46,5 +36,13 @@ public class Refund {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

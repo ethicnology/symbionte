@@ -7,9 +7,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -30,10 +28,7 @@ import com.ethicnology.symbionte.CallBackMethods;
 import com.ethicnology.symbionte.DataManager;
 import com.ethicnology.symbionte.Model.Event_model;
 import com.ethicnology.symbionte.R;
-import com.ethicnology.symbionte.TodoList.Add_Todo;
-import com.ethicnology.symbionte.TodoList.Todo_List;
 import com.ethicnology.symbionte.adapter.ListMemberAdapter;
-import com.ethicnology.symbionte.adapter.ListTodoAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -75,13 +70,13 @@ public class Add_event extends AppCompatActivity {
         ref = db.collection("colocations");
         add_button = findViewById(R.id.add_event_button);
         cancel_button = findViewById(R.id.cancel_event_button);
-        name_event = findViewById(R.id.event_name);
+        name_event = findViewById(R.id.event_name_add);
         all_day_switch = findViewById(R.id.all_day_event);
         eText= findViewById(R.id.event_time);
         eDate = findViewById(R.id.event_date);
 
         current_user_id = FirebaseAuth.getInstance().getCurrentUser();
-        members_list = findViewById(R.id.members_list);
+        members_list = findViewById(R.id.members_list_event);
         members_list.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         members_list.setLayoutManager(layoutManager);
@@ -134,7 +129,6 @@ public class Add_event extends AppCompatActivity {
         DataManager.getInstance().setFlatshareId(current_user_id.getUid(), new CallBackMethods() {
             @Override
             public void callback(final String flatshareId) {
-                //System.out.println(flatshareId);
                 final List<String>[] list_id_users = new List[]{new ArrayList<String>()};
                 ref.document(flatshareId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override

@@ -60,6 +60,9 @@ public class DataManager {
     public void delete_member(String member){
         this.members_selected.remove(member);
     }
+    public void clear_members(){
+        this.members_selected.clear();
+    }
 
     public void setMembers_selected(ArrayList<String> members_selected) {
         this.members_selected = members_selected;
