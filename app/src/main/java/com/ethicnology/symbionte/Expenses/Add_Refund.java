@@ -60,8 +60,7 @@ public class Add_Refund extends Activity {
                                 public void onClick(View v) {
                                     String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
                                     Refund refund = new Refund(user,date,amount_refund.getText().toString());
-
-                                        add_refund(user,flatshareId, getIntent().getStringExtra("bill_id"),refund);
+                                    add_refund(user,flatshareId, getIntent().getStringExtra("bill_id"),refund);
                                     }
 
                                 });

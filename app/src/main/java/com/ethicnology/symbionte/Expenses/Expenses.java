@@ -115,14 +115,13 @@ public class Expenses extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             ArrayList<Refund> list_refund = new ArrayList<>();
                             for (DocumentSnapshot doc:task.getResult()){
-                                Refund refund = new Refund(doc.get("created_by").toString(),doc.get("date").toString(),doc.get("amount").toString());
+                                Refund refund = new Refund(doc.get("created_by").toString(),doc.get("date").toString(), doc.get("amount").toString());
                                 refund.setId(doc.getId());
                                 list_refund.add(refund);
                             }
                             bill.setRefunds(list_refund);
                         }
                     });
-
                     billList.add(bill);
                 }
                 adapter = new ListBillAdapter(Expenses.this,billList);
@@ -205,5 +204,9 @@ public class Expenses extends AppCompatActivity {
 
         startActivity(intent);
     }
+
+
 }
+
+
 

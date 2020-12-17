@@ -3,6 +3,7 @@ package com.ethicnology.symbionte.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,29 +55,31 @@ public class ListBillAdapter extends RecyclerView.Adapter<ListBillViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListBillViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ListBillViewHolder holder, final int position) {
         holder.bill_amount.setText(billList.get(position).getAmount() + " €");
         holder.bill_created_by.setText("Created by : " + billList.get(position).getCreated_by());
         holder.bill_date.setText(billList.get(position).getDate());
         holder.bill_name.setText(billList.get(position).getName());
-        holder.bill_delete.setOnClickListener(new View.OnClickListener() {
+        DataManager.getInstance().setFlatshareId(FirebaseAuth.getInstance().getUid(), new CallBackMethods() {
             @Override
-            public void onClick(View v) {
-                DataManager.getInstance().setFlatshareId(FirebaseAuth.getInstance().getUid(), new CallBackMethods() {
+            public void callback(final String flatshareId) {
+                FirebaseFirestore.getInstance(). collection("users").document(FirebaseAuth.getInstance().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void callback(final String flatshareId) {
-                        FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    public void onSuccess(final DocumentSnapshot documentSnapshot) {
+                        if (!billList.get(position).getMembers().contains(documentSnapshot.getString("first"))){
+                            holder.bill_refund.setEnabled(false);
+                        }
+                        holder.bill_delete.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            public void onClick(View v) {
                                 activity.deleteBill(billList.get(position),flatshareId,documentSnapshot.getString("first"));
                             }
                         });
-
-
                     }
                 });
             }
         });
+
         holder.bill_refund.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
