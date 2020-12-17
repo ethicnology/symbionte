@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ethicnology.symbionte.CallBackMethods;
 import com.ethicnology.symbionte.DataManager;
+import com.ethicnology.symbionte.Incipit;
 import com.ethicnology.symbionte.Model.Event_model;
 import com.ethicnology.symbionte.R;
 import com.ethicnology.symbionte.adapter.ListEventAdapter;
@@ -59,6 +60,7 @@ public class Calendar extends AppCompatActivity {
 
         current_user_id = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
+
         ref = db.collection("colocations");
 
         events_list = findViewById(R.id.day_events);
@@ -92,33 +94,6 @@ public class Calendar extends AppCompatActivity {
         });
 
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        Toast.makeText(Calendar.this, String.format("Current User %s ", currentUser), Toast.LENGTH_SHORT).show();
-        getUser(currentUser.getUid());
-    }
-
-    public void getUser(String user_id) {
-        DocumentReference user = db.collection("users").document(user_id);
-        user.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d("Firebase", "DocumentSnapshot data: " + document.getData());
-                    } else {
-                        Log.d("Firebase", "No such document");
-                    }
-                } else {
-                    Log.d("Firebase", "get failed with ", task.getException());
-                }
-            }
-        });
     }
 
     public void setCurrentDate() {

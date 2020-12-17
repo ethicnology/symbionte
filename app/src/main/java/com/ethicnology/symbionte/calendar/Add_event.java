@@ -147,8 +147,6 @@ public class Add_event extends AppCompatActivity {
                         }
                     }
                 });
-                //System.out.println(eDate.getText().toString()+ " Dehors");
-
                 db.collection("users").document(current_user_id.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull final Task<DocumentSnapshot> task) {
@@ -195,7 +193,6 @@ public class Add_event extends AppCompatActivity {
 
     //Cancel button function
     public void cancel(){
-        //System.out.println(cancel_button);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
