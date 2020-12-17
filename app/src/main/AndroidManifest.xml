@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ethicnology.symbionte">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -18,8 +17,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
+        <activity
+            android:name=".MyFlatshare"
+            android:label="@string/title_activity_location"
+            android:parentActivityName=".Incipit">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Incipit" />
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -40,7 +45,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Incipit" />
         </activity>
-        <activity android:name=".FlatshareManager"
+        <activity
+            android:name=".FlatshareManager"
             android:parentActivityName=".Incipit">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -61,36 +67,72 @@
                 android:value=".Incipit" />
         </activity>
         <activity
-            android:name=".Todo_List"
+            android:name=".TodoList.Todo_List"
             android:parentActivityName=".Incipit">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Incipit" />
         </activity>
         <activity
-            android:name=".Send_Todo"
-            android:parentActivityName=".Todo_List">
+            android:name=".TodoList.Add_Todo"
+            android:parentActivityName=".TodoList.Todo_List">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Todo_List" />
+                android:value=".TodoList.Todo_List" />
         </activity>
         <activity
-            android:name=".Calendar"
+            android:name=".TodoList.Update_Todo"
+            android:parentActivityName=".TodoList.Todo_List">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".TodoList.Todo_List" />
+        </activity>
+        <activity
+            android:name=".TodoList.History_todo"
+            android:parentActivityName=".TodoList.Todo_List">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".TodoList.Todo_List" />
+        </activity>
+        <activity
+            android:name=".Expenses.Expenses"
             android:parentActivityName=".Incipit">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Incipit" />
         </activity>
         <activity
-            android:name=".Add_event"
-            android:parentActivityName=".Calendar">
+            android:name=".Expenses.Add_Bill"
+            android:parentActivityName=".Incipit">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Calendar" />
+                android:value=".Expenses.Expenses" />
+        </activity>
+        <activity
+            android:name=".Expenses.Add_Refund"
+            android:parentActivityName=".Incipit">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Expenses.Expenses" />
+        </activity>
+        <activity
+            android:name=".calendar.Calendar"
+            android:parentActivityName=".Incipit">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Incipit" />
+        </activity>
+        <activity
+            android:name=".calendar.Add_event"
+            android:parentActivityName=".calendar.Calendar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".calendar.Calendar" />
         </activity>
         <activity android:name=".Incipit">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
