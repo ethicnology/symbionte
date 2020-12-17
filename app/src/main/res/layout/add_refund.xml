@@ -69,7 +69,7 @@
         android:layout_marginTop="24dp"
         android:ems="10"
         android:hint="amount"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

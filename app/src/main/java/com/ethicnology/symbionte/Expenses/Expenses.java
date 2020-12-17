@@ -170,7 +170,7 @@ public class Expenses extends AppCompatActivity {
                         float result = 0;
                         for (DocumentSnapshot doc:task.getResult()){
                             ArrayList<String> listUsers = (ArrayList<String>) doc.get("members");
-                            result = (float) (result + (((Long)doc.get("amount")).intValue() / listUsers.size()));
+                            result = (float) ((float)result + (float)((float)((Long)doc.get("amount")).intValue() / listUsers.size()));
 
                         }
                         current_user_amount.setText("Mon total : "+ String.valueOf(result) + " €");
