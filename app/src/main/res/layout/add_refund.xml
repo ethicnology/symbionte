@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Expenses.Add_Refund"
+    >
 
     <View
         android:id="@+id/divider"
@@ -29,10 +31,10 @@
         app:layout_constraintVertical_bias="0.9" />
 
     <TextView
-        android:id="@+id/title_create_event"
+        android:id="@+id/title_create_refund"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create an event"
+        android:text="Add a Refund"
         android:textAlignment="center"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/divider"
@@ -41,7 +43,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/cancel_event_button"
+        android:id="@+id/cancel_Refund_button"
         android:layout_width="205dp"
         android:layout_height="71dp"
         android:backgroundTint="#8BF44336"
@@ -50,89 +52,48 @@
         app:layout_constraintTop_toTopOf="@+id/divider2" />
 
     <Button
-        android:id="@+id/add_event_button"
+        android:id="@+id/add_Refund_button"
         android:layout_width="205dp"
         android:layout_height="71dp"
         android:backgroundTint="#8103BCF4"
         android:text="Add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/cancel_event_button"
+        app:layout_constraintStart_toEndOf="@+id/cancel_Refund_button"
         app:layout_constraintTop_toTopOf="@+id/divider2" />
 
     <EditText
-        android:id="@+id/event_date"
+        android:id="@+id/Refund_amout_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="Choose a date"
-        android:inputType="date"
-        app:layout_constraintBottom_toTopOf="@+id/divider2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/event_name_add"
-        app:layout_constraintVertical_bias="0.049" />
-
-    <EditText
-        android:id="@+id/event_name_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:ems="10"
-        android:hint="Name"
-        android:inputType="textPersonName"
+        android:hint="amount"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amount_refund_user" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="You need to refund : "
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
-    <EditText
-        android:id="@+id/event_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Enter Time"
-        app:layout_constraintBottom_toTopOf="@+id/divider2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/event_date"
-        app:layout_constraintVertical_bias="0.048" />
-
-    <Switch
-        android:id="@+id/all_day_event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="All day"
-        app:layout_constraintBottom_toTopOf="@+id/divider2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.312"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/event_time"
-        app:layout_constraintVertical_bias="0.027" />
-
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/amount_refund_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select members"
-        app:layout_constraintBottom_toTopOf="@+id/divider2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/all_day_event"
-        app:layout_constraintVertical_bias="0.115" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/members_list_event"
-        android:layout_width="211dp"
-        android:layout_height="138dp"
-        app:layout_constraintBottom_toTopOf="@+id/divider2"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
-        app:layout_constraintVertical_bias="0.363" />
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,8 +35,8 @@ class FlatshareManager : AppCompatActivity() {
         val newFlatshare = authId?.let { Flatshare(flatshareName, it) }
         newFlatshare?.let { createFlatshare(it) }
         Toast.makeText(this, "Flatshare created", Toast.LENGTH_SHORT).show()
-        val gotoIncipit = Intent(this, Incipit::class.java).apply {putExtra(EXTRA_MESSAGE, data)}
-        startActivity(gotoIncipit)
+        val gotoFlatshareManager = Intent(this, FlatshareManager::class.java).apply {putExtra(EXTRA_MESSAGE, data)}
+        startActivity(gotoFlatshareManager)
     }
 
     fun buttonJoinFlatshare(view: View){
@@ -47,8 +47,7 @@ class FlatshareManager : AppCompatActivity() {
         val authId = auth.currentUser?.uid
         authId?.let {joinFlatshare(this, idClean)}
         Toast.makeText(this, "Flatshare joined", Toast.LENGTH_SHORT).show()
-        val gotoIncipit = Intent(this, Incipit::class.java).apply {putExtra(EXTRA_MESSAGE, data)}
-        startActivity(gotoIncipit)
+        val gotoFlatshareManager = Intent(this, FlatshareManager::class.java).apply {putExtra(EXTRA_MESSAGE, data)}
+        startActivity(gotoFlatshareManager)
     }
-
 }

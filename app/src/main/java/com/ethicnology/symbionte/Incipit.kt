@@ -10,10 +10,18 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ethicnology.symbionte.FirebaseUtils.auth
+
+import com.ethicnology.symbionte.Expenses.Expenses
 import com.ethicnology.symbionte.TodoList.Todo_List
+import com.ethicnology.symbionte.calendar.Calendar
+import com.ethicnology.symbionte.FirebaseUtils.auth
+import com.ethicnology.symbionte.FirebaseUtils.getCurrentFlatshare
+import com.ethicnology.symbionte.FirebaseUtils.getCurrentUser
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+
 
 interface CellClickListener {
     fun onCellClickListener(data: String)
@@ -38,13 +46,33 @@ class Incipit : AppCompatActivity(), CellClickListener {
             startActivity(gotoAuthentication)
         }
 
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = MyAdapter(arrayOf("My Flatshare", "My Data", "Flatmates Map", "Todo Lists", "Calendar"), this)
-        recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
-            setHasFixedSize(true)
-            layoutManager = viewManager
-            adapter = viewAdapter
+        getCurrentUser {
+            if (it.flatshareId == null){
+                println("Dans null")
+                viewManager = LinearLayoutManager(this)
+                viewAdapter = MyAdapter(arrayOf("My Flatshare", "My Data", "Flatmates Map"), this)
+                recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
+                    setHasFixedSize(true)
+                    layoutManager = viewManager
+                    adapter = viewAdapter
+            }
+        } else {
+                println("Dans not null")
+
+                viewManager = LinearLayoutManager(this)
+                viewAdapter = MyAdapter(arrayOf("My Flatshare", "My Data", "Flatmates Map", "Todo Lists", "Calendar","Expenses"), this)
+                recyclerView = findViewById<RecyclerView>(R.id.recycler_view).apply {
+                    setHasFixedSize(true)
+                    layoutManager = viewManager
+                    adapter = viewAdapter
+                }
+            }
         }
+    }
+
+    override fun onRestart() {
+        this.recreate()
+        super.onRestart()
     }
 
     fun buttonDisconnect(view: View){
@@ -64,6 +92,7 @@ class Incipit : AppCompatActivity(), CellClickListener {
             "Flatmates Map" -> FlatmatesLocation::class.java
             "Todo Lists" -> Todo_List::class.java
             "Calendar" -> Calendar::class.java
+            "Expenses" -> Expenses::class.java
             else -> Incipit::class.java
         }
         val intent = Intent(this, activity).apply {putExtra(EXTRA_MESSAGE, data)}
