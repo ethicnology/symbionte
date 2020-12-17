@@ -45,6 +45,7 @@ class MyFlatshare : AppCompatActivity() {
 
     private fun updateFlatshareUI(flatshare: Flatshare){
         findViewById<TextView>(R.id.textViewFlatshareName).text = flatshare.name
+        findViewById<TextView>(R.id.textViewFlatshareId).text = flatshare.id
     }
 
     private fun updateAdminUI(admin: User){
